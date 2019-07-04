@@ -1,4 +1,5 @@
 import org.sqlite.SQLiteConfig;
+import java.util.Scanner;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,50 +8,31 @@ import java.sql.ResultSet;
 public class Main {
     public static void main(String args[]) {
         // code to open database
+        Scanner input = new Scanner(System.in);
         openDatabase("RevisionDatabase.db");
 
-        try {
+        String usersEmail, usersPassword;
+        System.out.println("Enter your email");
+        usersEmail = input.nextLine();
+        System.out.println("Enter your password");
+        usersPassword = input.nextLine();
 
-            PreparedStatement ps = db.prepareStatement("SELECT UserID, Username, Email FROM LogInData");
 
-            ResultSet result = ps.executeQuery();
-            while (result.next()) {
-                int UserID = result.getInt(1);
-                String Username = result.getString(2);
-                String Email = result.getString(3);
-                System.out.println("UserID: " + UserID + " Username: " + Username + " Email: " + Email);
-            }
-
-        } catch (Exception exception) {
-            System.out.println("Database error: " + exception.getMessage());
-        }
-
-        try {
-
-            PreparedStatement ps = db.prepareStatement("INSERT INTO LogInData (UserID, Username, Email) VALUES (?, ?, ?)");
-
-            ps.setInt(1, 3);
-           ps.setString(2, "OllyLyng3");
-            ps.setString(3, "77953@farnborough.ac.uk");
-
-            ps.executeUpdate();
-            System.out.println("User added");
-
-        } catch (Exception exception) {
-            System.out.println("Database error: " + exception.getMessage());
-        }
+        UsersController.listUsers(usersEmail, usersPassword);
+        UsersController.newUsers(usersEmail, usersPassword);
+        UsersController.updateUsers(usersEmail, usersPassword);
 
         closeDatabase();
 
     }
 
-     public static Connection db = null;
+    public static Connection db = null;
 
     private static void openDatabase(String dbFile)
-            //code to connect to database
-   {
+    //code to connect to database
+    {
 
-       try  {
+        try {
 
             Class.forName("org.sqlite.JDBC");
             SQLiteConfig config = new SQLiteConfig();
@@ -67,7 +49,7 @@ public class Main {
 
 
     private static void closeDatabase()
-            //code to close database
+    //code to close database
     {
         try {
 
