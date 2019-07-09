@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class Main {
+    // testing commit
     public static void main(String args[]) {
         // code to open database
         Scanner input = new Scanner(System.in);
