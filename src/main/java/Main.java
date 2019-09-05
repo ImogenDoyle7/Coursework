@@ -23,7 +23,26 @@ public class Main {
         UsersController.newUsers(usersEmail, usersPassword);
         UsersController.updateUsers(usersEmail, usersPassword);
 
+
+
+
         closeDatabase();
+
+    }
+
+    private static void deleteUser(String usersEmail)
+    //code to delete user from database
+    {
+
+
+        try {
+
+            UsersController.deleteUsers(usersEmail);
+
+        } catch (Exception exception) {
+
+            System.out.println("User deletion error: " + exception.getMessage());
+        }
 
     }
 

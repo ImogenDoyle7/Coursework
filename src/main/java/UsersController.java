@@ -46,17 +46,31 @@ public class UsersController {
         }
 
         public static void updateUsers(String usersEmail, String usersPassword)
-        {
-            try {
-                PreparedStatement ps = Main.db.prepareStatement("UPDATE Users SET Email = ?, Password = ?");
+    // code to update the users data if anything is edited
+    {
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("UPDATE Users SET Email = ?, Password = ?");
 
-                ps.setString(1, usersEmail);
-                ps.setString(2, usersPassword);
+            ps.setString(1, usersEmail);
+            ps.setString(2, usersPassword);
 
-                ps.execute();
+            ps.execute();
 
-            } catch (Exception exception) {
-                System.out.println("Database error: " + exception.getMessage());
-            }
-            }
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+        }
+    }
+
+    public static void deleteUsers(String usersEmail)
+    // code to delete a user from the users table
+    {
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("DELETE from Users where Email = ?");
+
+            ps.execute();
+
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+        }
+    }
         }
