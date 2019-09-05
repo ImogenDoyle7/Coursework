@@ -17,7 +17,7 @@ public class UsersController {
                 String Email = result.getString(2);
                 System.out.println("UserID: " + UserID + " Email: " + Email + " Password: " + Password);
             }
-
+            
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
         }
