@@ -17,9 +17,10 @@ public class UsersController {
                 String Email = result.getString(2);
                 System.out.println("UserID: " + UserID + " Email: " + Email + " Password: " + Password);
             }
-            
+
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
+            System.out.println("Database error: data not able to be listed");
         }
 
     }
@@ -42,6 +43,7 @@ public class UsersController {
 
             } catch (Exception exception) {
                 System.out.println("Database error: " + exception.getMessage());
+                System.out.println("Data not added to database");
             }
         }
 
@@ -58,6 +60,7 @@ public class UsersController {
 
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
+            System.out.println("Database not updated");
         }
     }
 
@@ -66,11 +69,13 @@ public class UsersController {
     {
         try {
             PreparedStatement ps = Main.db.prepareStatement("DELETE from Users where Email = ?");
-
+            ps.setString(1,usersEmail);
             ps.execute();
+
 
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
+            System.out.println("Data not deleted from database");
         }
     }
         }
