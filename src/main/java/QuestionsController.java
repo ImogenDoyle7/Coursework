@@ -34,10 +34,11 @@ public class QuestionsController {
 
         try {
 
-            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Questions (Question, Answer) VALUES (?, ?)");
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Questions (Question, Answer, previouslyCorrect) VALUES (?, ?, ?)");
 
             ps.setString(1, Question);
             ps.setString(2, Answer);
+            ps.setBoolean(false, previouslyCorrect);
 
             ps.execute();
             System.out.println("Question and Answer added");
