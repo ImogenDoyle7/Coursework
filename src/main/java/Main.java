@@ -30,6 +30,18 @@ public class Main {
 
     }
 
+
+
+    private static void createQuestion(){
+        Boolean previouslyCorrect = false;
+        String newQuestion, newAnswer;
+        System.out.println("Enter the question");
+        newQuestion = input.nextLine();
+        System.out.println("Enter your answer");
+        newAnswer = input.nextLine();
+        QuestionsController.newQuestions(newQuestion, newAnswer, previouslyCorrect);
+    }
+
     private static void deleteUser(String usersEmail)
     //code to delete user from database
     {

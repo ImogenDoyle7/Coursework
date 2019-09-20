@@ -38,7 +38,7 @@ public class QuestionsController {
 
             ps.setString(1, Question);
             ps.setString(2, Answer);
-            ps.setBoolean(false, previouslyCorrect);
+            ps.setBoolean(3, previouslyCorrect);
 
             ps.execute();
             System.out.println("Question and Answer added");
