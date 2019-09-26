@@ -57,7 +57,7 @@ public class UsersController {
             ps.setString(2, usersPassword);
 
             ps.execute();
-
+            
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
             System.out.println("Database not updated");
