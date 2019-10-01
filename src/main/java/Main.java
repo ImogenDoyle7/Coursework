@@ -13,8 +13,7 @@ public class Main {
         openDatabase("RevisionDatabase.db");
 
         logIn();
-
-
+        
         UsersController.listUsers(usersEmail, usersPassword);
         UsersController.newUsers(usersEmail, usersPassword);
         UsersController.updateUsers(usersEmail, usersPassword);
