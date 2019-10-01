@@ -2,7 +2,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class UsersController {
-    public static void listUsers(String usersEmail, String usersPassword)
+    public static void listUsers()
     //code to list the users data in the users table
     {
 
@@ -26,7 +26,7 @@ public class UsersController {
     }
 
 
-        public static void newUsers(String usersEmail, String usersPassword)
+        public static void newUsers(String Email, String Password)
         //code to add new users data to the users table
         {
 
@@ -35,8 +35,8 @@ public class UsersController {
 
                 PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Users (Email, Password) VALUES (?, ?)");
 
-                ps.setString(1, usersEmail);
-                ps.setString(2, usersPassword);
+                ps.setString(1, Email);
+                ps.setString(2, Password);
 
                 ps.execute();
                 System.out.println("User added");
@@ -47,14 +47,14 @@ public class UsersController {
             }
         }
 
-        public static void updateUsers(String usersEmail, String usersPassword)
+        public static void updateUsers(String Email, String Password)
     // code to update the users data if anything is edited
     {
         try {
             PreparedStatement ps = Main.db.prepareStatement("UPDATE Users SET Email = ?, Password = ?");
 
-            ps.setString(1, usersEmail);
-            ps.setString(2, usersPassword);
+            ps.setString(1, Email);
+            ps.setString(2, Password);
 
             ps.execute();
 
@@ -64,12 +64,12 @@ public class UsersController {
         }
     }
 
-    public static void deleteUsers(String usersEmail)
+    public static void deleteUsers(String Email)
     // code to delete a user from the users table
     {
         try {
             PreparedStatement ps = Main.db.prepareStatement("DELETE from Users where Email = ?");
-            ps.setString(1,usersEmail);
+            ps.setString(1,Email);
             ps.execute();
 
 

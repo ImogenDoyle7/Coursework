@@ -8,29 +8,35 @@ import java.sql.ResultSet;
 public class Main {
     // testing commit
     public static void main(String args[]) {
+
+        String Email, Password;
         // code to open database
         Scanner input = new Scanner(System.in);
         openDatabase("RevisionDatabase.db");
 
-        logIn();
-        
-        UsersController.listUsers(usersEmail, usersPassword);
-        UsersController.newUsers(usersEmail, usersPassword);
-        UsersController.updateUsers(usersEmail, usersPassword);
-        UsersController.deleteUsers(usersEmail);
+        logIn(Email, Password);
 
+        UsersController.listUsers();
+        UsersController.newUsers(Email, Password);
+        UsersController.updateUsers(Email, Password);
+        UsersController.deleteUsers(Email);
+
+    QuestionsController.listQuestions();
+        createQuestion();
+        QuestionsController.updateQuestions();
+        QuestionsController.deleteQuestions();
 
 
         closeDatabase();
 
     }
 
-    private static void logIn(){
-        String usersEmail, usersPassword;
+    private static void logIn(String Email, String Password){
         System.out.println("Enter your email");
-        usersEmail = input.nextLine();
+        Email = input.nextLine();
         System.out.println("Enter your password");
-        usersPassword = input.nextLine();
+        Password = input.nextLine();
+        return;
     }
 
 
