@@ -39,7 +39,7 @@ public class Main {
         newQuestion = input.nextLine();
         System.out.println("Enter your answer");
         newAnswer = input.nextLine();
-        QuestionsController.newQuestions(newQuestion, newAnswer, previouslyCorrect);
+        QuestionsController.newQuestions(Question, Answer, previouslyCorrect);
     }
 
     private static void deleteUser(String usersEmail)

@@ -9,14 +9,17 @@ public class QuestionsController {
 
         try {
 
-            PreparedStatement ps = Main.db.prepareStatement("SELECT QuestionID, Question, Answer, SubjectID, ScoreID FROM Questions");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT QuestionID, Question, Answer, IncorrectAns1, IncAns2, IncAns3 FROM Questions");
 
             ResultSet result = ps.executeQuery();
             while (result.next()) {
                 int QuestionsID = result.getInt(1);
                 String Question = result.getString(2);
                 String Answer = result.getString(3);
-                System.out.println("Question: " + Question + " Answer: " + Answer);
+                String IncorrectAns1 = result.getString(4);
+                String IncAns2 = result.getString(5);
+                String IncAns3 = result.getString(6);
+                System.out.println("Question: " + Question + " Answer: " + Answer + " Incorrect Answer1: " + IncorrectAns1 + );
             }
 
         } catch (Exception exception) {
