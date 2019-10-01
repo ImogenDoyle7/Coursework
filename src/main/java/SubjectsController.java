@@ -22,8 +22,8 @@ public class SubjectsController {
                 System.out.println("Database error: data not able to be listed");
             }
 
-            public static void newSubjects(String SubjectID, String newSubjectName)
-            //code to add new users data to the users table
+            public static void newSubjects(String SubjectID, String SubjectName)
+            //code to add new subjects data to the subjects table
             {
 
 
@@ -31,7 +31,7 @@ public class SubjectsController {
 
                     PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Subjects (SubjectID, SubjectName) VALUES (?, ?)");
 
-                    ps.setString(1, subjectID);
+                    ps.setString(1, SubjectID);
                     ps.setString(2, subjectName);
 
                     ps.execute();
@@ -44,7 +44,7 @@ public class SubjectsController {
             }
 
             public static void updateSubjects(String SubjectName)
-            // code to update the users data if anything is edited
+            // code to update the subjects data if anything is edited
             {
                 try {
                     PreparedStatement ps = Main.db.prepareStatement("UPDATE Subjects SET SubjectName = ?");
@@ -61,19 +61,12 @@ public class SubjectsController {
 
 }
 
-
-
-
-
-
-
-
-    public static void deleteUsers(String usersEmail)
-    // code to delete a user from the users table
+    public static void deleteSubjects(String SubjectName)
+    // code to delete a subject from the subjects table
     {
         try {
-            PreparedStatement ps = Main.db.prepareStatement("DELETE from Users where Email = ?");
-            ps.setString(1,usersEmail);
+            PreparedStatement ps = Main.db.prepareStatement("DELETE from Subjects where SubjectName = ?");
+            ps.setString(1,SubjectName);
             ps.execute();
 
 

@@ -12,17 +12,13 @@ public class Main {
         Scanner input = new Scanner(System.in);
         openDatabase("RevisionDatabase.db");
 
-        String usersEmail, usersPassword;
-        System.out.println("Enter your email");
-        usersEmail = input.nextLine();
-        System.out.println("Enter your password");
-        usersPassword = input.nextLine();
+        logIn();
 
 
         UsersController.listUsers(usersEmail, usersPassword);
         UsersController.newUsers(usersEmail, usersPassword);
         UsersController.updateUsers(usersEmail, usersPassword);
-
+        UsersController.deleteUsers(usersEmail);
 
 
 
@@ -30,32 +26,29 @@ public class Main {
 
     }
 
+    private static void logIn(){
+        String usersEmail, usersPassword;
+        System.out.println("Enter your email");
+        usersEmail = input.nextLine();
+        System.out.println("Enter your password");
+        usersPassword = input.nextLine();
+    }
 
 
     private static void createQuestion(){
         Boolean previouslyCorrect = false;
-        String newQuestion, newAnswer;
+        String Question, Answer, IncorrectAns1, IncAns2, IncAns3;
         System.out.println("Enter the question");
-        newQuestion = input.nextLine();
+        Question = input.nextLine();
         System.out.println("Enter your answer");
-        newAnswer = input.nextLine();
-        QuestionsController.newQuestions(Question, Answer, previouslyCorrect);
-    }
-
-    private static void deleteUser(String usersEmail)
-    //code to delete user from database
-    {
-
-
-        try {
-
-            UsersController.deleteUsers(usersEmail);
-
-        } catch (Exception exception) {
-
-            System.out.println("User deletion error: " + exception.getMessage());
-        }
-
+        Answer = input.nextLine();
+        System.out.println("Enter your first incorrect option");
+        IncorrectAns1 = input.nextLine();
+        System.out.println("Enter your second incorrect option");
+        IncAns2 = input.nextLine();
+        System.out.println("Enter your third incorrect option");
+        IncAns3 = input.nextLine();
+        QuestionsController.newQuestions(Question, Answer, previouslyCorrect, IncorrectAns1, IncAns2, IncAns3);
     }
 
     public static Connection db = null;

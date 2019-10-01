@@ -30,21 +30,24 @@ public class QuestionsController {
     }
 
 
-    public static void newQuestions(String Question, String Answer)
+    public static void newQuestions(String Question, String Answer, Boolean previouslyCorrect, String IncorrectAns1, String IncAns2, String IncAns3)
     //code to add new questions data to the questions table
     {
 
 
         try {
 
-            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Questions (Question, Answer, previouslyCorrect) VALUES (?, ?, ?)");
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Questions (Question, Answer, previouslyCorrect, IncorrectAns1, IncAns2, IncAns3, ) VALUES (?, ?, ?, ?, ?, ?)");
 
             ps.setString(1, Question);
             ps.setString(2, Answer);
             ps.setBoolean(3, previouslyCorrect);
+            ps.setString(4, IncorrectAns1);
+            ps.setString(5, IncAns2);
+            ps.setString(6, IncAns3);
 
             ps.execute();
-            System.out.println("Question and Answer added");
+            System.out.println("Question and Answers added");
 
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
