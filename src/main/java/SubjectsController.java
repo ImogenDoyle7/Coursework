@@ -2,7 +2,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class SubjectsController {
-    public static void listSubjects(String subjectName, String usersPassword)
+    public static void listSubjects()
         //code to list the users data in the users table
         {
 
@@ -22,17 +22,16 @@ public class SubjectsController {
                 System.out.println("Database error: data not able to be listed");
             }
 
-            public static void newSubjects(String SubjectID, String SubjectName)
-            //code to add new subjects data to the subjects table
+            public static void newSubjects(String SubjectName)
+            //code to add new subject data to the subjects table
             {
 
 
                 try {
 
-                    PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Subjects (SubjectID, SubjectName) VALUES (?, ?)");
+                    PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Subjects (SubjectName) VALUES (?)");
 
-                    ps.setString(1, SubjectID);
-                    ps.setString(2, subjectName);
+                    ps.setString(1, SubjectName);
 
                     ps.execute();
                     System.out.println("Subject added");

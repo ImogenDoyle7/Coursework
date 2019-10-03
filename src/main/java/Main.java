@@ -56,6 +56,13 @@ public class Main {
         QuestionsController.newQuestions(Question, Answer, previouslyCorrect, IncorrectAns1, IncAns2, IncAns3);
     }
 
+    private static void createSubject(){
+        String SubjectName;
+        System.out.println("Enter the name of your new subject");
+        SubjectName = input.nextLine();
+        SubjectsController.newSubjects(SubjectName);
+    }
+
     public static Connection db = null;
 
     private static void openDatabase(String dbFile)
