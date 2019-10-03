@@ -1,9 +1,10 @@
-
+package Controllers;
+import Server.Main;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class QuestionsController {
-    public static void listQuestions()
+   /* public static void listQuestions()
     //code to list the questions data in the questions table
     {
 
@@ -19,7 +20,7 @@ public class QuestionsController {
                 String IncorrectAns1 = result.getString(4);
                 String IncAns2 = result.getString(5);
                 String IncAns3 = result.getString(6);
-                System.out.println("Question: " + Question + " Answer: " + Answer + " Incorrect Answer1: " + IncorrectAns1 + );
+                System.out.println("Question: " + Question + " Answer: " + Answer + " Incorrect Answer1: " + IncorrectAns1);
             }
 
         } catch (Exception exception) {
@@ -72,7 +73,7 @@ public class QuestionsController {
         }
     }
 
-    public static void deleteQuestions(String Question)
+    public static void deleteQuestions()
     // code to delete a question from the questions table
     {
         try {
@@ -85,5 +86,5 @@ public class QuestionsController {
             System.out.println("Database error: " + exception.getMessage());
             System.out.println("Data not deleted from database");
         }
-    }
+    }*/
 }

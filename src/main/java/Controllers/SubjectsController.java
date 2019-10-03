@@ -1,8 +1,10 @@
+package Controllers;
+import Server.Main;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class SubjectsController {
-    public static void listSubjects()
+   /* public static void listSubjects()
         //code to list the users data in the users table
         {
 
@@ -72,6 +74,6 @@ public class SubjectsController {
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
             System.out.println("Data not deleted from database");
-        }
+        }*/
     }
 

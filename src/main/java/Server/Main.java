@@ -1,3 +1,15 @@
+package Server;
+
+import Controllers.QuestionsController;
+import Controllers.SubjectsController;
+import Controllers.TopicsController;
+import Controllers.UsersController;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.servlet.ServletContainer;
 import org.sqlite.SQLiteConfig;
 import java.util.Scanner;
 import java.sql.Connection;
@@ -6,8 +18,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class Main {
+    public static Connection db = null;
     // testing commit
-    public static void main(String args[]) {
+    /*public static void main(String args[]) {
 
         String Email, Password;
         // code to open database
@@ -21,7 +34,13 @@ public class Main {
         UsersController.updateUsers(Email, Password);
         UsersController.deleteUsers(Email);
 
-    QuestionsController.listQuestions();
+        TopicsController.listTopics();
+        TopicsController.deleteTopics();
+        String topicName = "Economics";
+        TopicsController.newTopics(topicName);
+        TopicsController.updateTopics(topicName);
+
+        QuestionsController.listQuestions();
         createQuestion();
         QuestionsController.updateQuestions();
         QuestionsController.deleteQuestions();
@@ -29,9 +48,34 @@ public class Main {
 
         closeDatabase();
 
+    }*/
+
+    public static void main(String[] args) {
+
+        openDatabase("RevisionDatabase.db");
+
+        ResourceConfig config = new ResourceConfig();
+        config.packages("Controllers");
+        config.register(MultiPartFeature.class);
+        ServletHolder servlet = new ServletHolder(new ServletContainer(config));
+
+        Server server = new Server(8081);
+        ServletContextHandler context = new ServletContextHandler(server, "/");
+        context.addServlet(servlet, "/*");
+
+        try {
+            server.start();
+            System.out.println("Server successfully started.");
+            server.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private static void logIn(String Email, String Password){
+
+
+
+    /*private static void logIn(String Email, String Password){
         System.out.println("Enter your email");
         Email = input.nextLine();
         System.out.println("Enter your password");
@@ -61,9 +105,9 @@ public class Main {
         System.out.println("Enter the name of your new subject");
         SubjectName = input.nextLine();
         SubjectsController.newSubjects(SubjectName);
-    }
+    }*/
 
-    public static Connection db = null;
+
 
     private static void openDatabase(String dbFile)
     //code to connect to database
