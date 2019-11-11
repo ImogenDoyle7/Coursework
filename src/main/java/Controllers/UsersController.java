@@ -35,14 +35,14 @@ public class UsersController {
                     return "{\"token\": \""+ token + "\"}";
                 } else {
 
-                    return "{\"error\": \"Unknown user!\"}";
+                    return "{\"error\": \"Passwords do not match\"}";
                 }
                 } else {
-                return "{\"error\": \"Unknown user!\"}";
+                return "{\"error\": \"There is no user with this email\"}";
             }
         } catch (Exception exception) {
             System.out.println("Database error during /user/login: " + exception.getMessage());
-            return "{\"error\": \"Unable to log in user, server side error!\"}";
+            return "{\"error\": \"Unable to log in user, server side error\"}";
         }
     }
     @GET
@@ -88,7 +88,7 @@ public class UsersController {
 
         }
     }
-   /* @POST
+   @POST
     @Path("editEmail")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
@@ -96,7 +96,10 @@ public class UsersController {
         try {
             loginUser(Email, Password);
             return Email;
-    }*/
+    } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"error\": \"Unable to list users, please see server console for more info.\"}";
+        }
 
 
 
