@@ -1,22 +1,25 @@
 package Controllers;
 import Server.Main;
-import com.sun.jersey.multipart.FormDataParam;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import javax.validation.constraints.Email;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.UUID;
 
+
 @Path("/Users/")
 public class UsersController {
+
+
     @POST
     @Path("login")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
+
     public String loginUser(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password) {
         try {
             PreparedStatement ps1 = Main.db.prepareStatement("SELECT Password FROM Users WHERE Email = ?");
@@ -107,28 +110,27 @@ public class UsersController {
 
 
     /*public static void listUsers()
-    //code to list the users data in the users table
-    {
+        //code to list the users data in the users table
+        {
 
-        try {
+            try {
 
-            PreparedStatement ps = Main.db.prepareStatement("SELECT UserID, Email, Password FROM Users");
+                PreparedStatement ps = Main.db.prepareStatement("SELECT UserID, Email, Password FROM Users");
 
-            ResultSet result = ps.executeQuery();
-            while (result.next()) {
-                int UserID = result.getInt(1);
-                String Password = result.getString(3);
-                String Email = result.getString(2);
-                System.out.println("UserID: " + UserID + " Email: " + Email + " Password: " + Password);
+                ResultSet result = ps.executeQuery();
+                while (result.next()) {
+                    int UserID = result.getInt(1);
+                    String Password = result.getString(3);
+                    String Email = result.getString(2);
+                    System.out.println("UserID: " + UserID + " Email: " + Email + " Password: " + Password);
+                }
+
+            } catch (Exception exception) {
+                System.out.println("Database error: " + exception.getMessage());
+                System.out.println("Database error: data not able to be listed");
             }
 
-        } catch (Exception exception) {
-            System.out.println("Database error: " + exception.getMessage());
-            System.out.println("Database error: data not able to be listed");
         }
-
-    }*/
-
 
 
        /* public static void newUsers(String Email, String Password)
