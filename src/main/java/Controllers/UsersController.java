@@ -49,6 +49,31 @@ public class UsersController {
         }
     }
 
+    @POST
+    @Path("signUp")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+
+    public String signUp(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password1, @FormDataParam("CheckPassword") String Password2) { //this is a form data parameter
+        try {
+            if (Email == null || Password1 == null || Password2 == null) {
+                throw new Exception("The form data parameter is missing in the HTTP request");
+            }
+
+            if (Password1 == Password2) { // This checks that the users confirmation password matches their password
+                PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Users (Email, Password) VALUES (?, ?)");
+                ps.setString(1, Email);
+                ps.setString(2, Password1);
+            } else {
+                return "{\"error\": \"Passwords do not match\"}";
+            }
+        } catch (Exception exception) {
+            System.out.println("Database error during /user/login: " + exception.getMessage());
+            return "{\"error\": \"Unable to log in user, server side error\"}";
+        }
+        return Email;
+    }
+
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
@@ -56,7 +81,7 @@ public class UsersController {
         System.out.println("user/details");
         JSONArray list = new JSONArray();
         try {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT Email, Password FROM Users");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT Email, Password FROM Users ");
             ResultSet results = ps.executeQuery();
             while (results.next()) {
                 JSONObject item = new JSONObject();
@@ -70,6 +95,30 @@ public class UsersController {
             return "{\"error\": \"Unable to list users, please see server console for more info.\"}";
         }
     }
+
+    /* public static void newUsers(String Email, String Password)
+        //code to add new users data to the users table
+        {
+
+
+            try {
+
+                PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Users (Email, Password) VALUES (?, ?)");
+
+                ps.setString(1, Email);
+                ps.setString(2, Password);
+
+                ps.execute();
+                System.out.println("User added");
+
+            } catch (Exception exception) {
+                System.out.println("Database error: " + exception.getMessage());
+                System.out.println("Data not added to database");
+            }
+        }
+/*
+
+
 
     @POST
     @Path("new")
@@ -185,5 +234,4 @@ public class UsersController {
             System.out.println("Data not deleted from database");
         }
     }*/
-    }
 }

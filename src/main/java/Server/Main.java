@@ -54,14 +54,14 @@ public class Main {
 
         openDatabase("RevisionDatabase.db");
 
-        ResourceConfig config = new ResourceConfig();
+        ResourceConfig config = new ResourceConfig(); // Prepares the Jersey Servlet
         config.packages("Controllers");
         config.register(MultiPartFeature.class);
-        ServletHolder servlet = new ServletHolder(new ServletContainer(config));
+        ServletHolder servlet = new ServletHolder(new ServletContainer(config)); // Instantiates the servlet
 
-        Server server = new Server(8081);
-        ServletContextHandler context = new ServletContextHandler(server, "/");
-        context.addServlet(servlet, "/*");
+        Server server = new Server(8081); // Prepares the Jetty Server to listen on port 8081
+        ServletContextHandler context = new ServletContextHandler(server, "/"); // Instantiates the server
+        context.addServlet(servlet, "/*"); // Connects the Servlet to the server
 
         try {
             server.start();
