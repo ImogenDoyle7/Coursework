@@ -1,5 +1,6 @@
 package Controllers;
 import Server.Main;
+import org.eclipse.jetty.server.Authentication;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,9 +20,10 @@ public class UsersController {
     @Path("login")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-
     public String loginUser(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password) {
         try {
+
+            System.out.println("user/login");
             PreparedStatement ps1 = Main.db.prepareStatement("SELECT Password FROM Users WHERE Email = ?");
             ps1.setString(1, Email);
             ResultSet loginResults = ps1.executeQuery();
@@ -30,12 +32,15 @@ public class UsersController {
                 if (Password.equals(correctPassword)) {
                     String token = UUID.randomUUID().toString();
 
-                    PreparedStatement ps2 = Main.db.prepareStatement("UPDATE Users SET Token = ? WHERE Username = ?");
+                    PreparedStatement ps2 = Main.db.prepareStatement("UPDATE Users SET Token = ? WHERE Email = ?");
                     ps2.setString(1, token);
                     ps2.setString(2, Email);
                     ps2.executeUpdate();
 
-                    return "{\"token\": \"" + token + "\"}";
+                    JSONObject userDetails = new JSONObject();
+                    userDetails.put("email", Email);
+                    userDetails.put("token", token);
+                    return userDetails.toString();
                 } else {
 
                     return "{\"error\": \"Passwords do not match\"}";
@@ -50,11 +55,62 @@ public class UsersController {
     }
 
     @POST
+    @Path("logout")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String logoutUser(@CookieParam("token") String token) {
+        if (!UsersController.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+        }
+        try {
+
+            System.out.println("user/logout");
+
+            PreparedStatement ps1 = Main.db.prepareStatement("SELECT UserID FROM Users WHERE Token = ?");
+            ps1.setString(1, token);
+            ResultSet logoutResults = ps1.executeQuery();
+            if (logoutResults.next()) {
+
+                int id = logoutResults.getInt(1);
+
+                PreparedStatement ps2 = Main.db.prepareStatement("UPDATE Users SET Token = NULL WHERE UserID = ?");
+                ps2.setInt(1, id);
+                ps2.executeUpdate();
+
+                return "{\"status\": \"OK\"}";
+            } else {
+
+                return "{\"error\": \"Invalid token!\"}";
+
+            }
+
+        } catch (Exception exception) {
+            System.out.println("Database error during /user/logout: " + exception.getMessage());
+            return "{\"error\": \"Server side error!\"}";
+        }
+
+    }
+
+    public static boolean validToken(String token) {
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("SELECT UserID FROM Users WHERE Token = ?");
+            ps.setString(1, token);
+            ResultSet logoutResults = ps.executeQuery();
+            return logoutResults.next();
+        } catch (Exception exception) {
+            System.out.println("Database error during /user/logout: " + exception.getMessage());
+            return false;
+        }
+    }
+
+    @POST
     @Path("signUp")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-
-    public String signUp(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password1, @FormDataParam("CheckPassword") String Password2) { //this is a form data parameter
+    public String signUp(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password1, @FormDataParam("CheckPassword") String Password2, @CookieParam("token") String token) { //this is a form data parameter
+        if (!UsersController.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+        }
         try {
             if (Email == null || Password1 == null || Password2 == null) {
                 throw new Exception("The form data parameter is missing in the HTTP request");
@@ -64,6 +120,8 @@ public class UsersController {
                 PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Users (Email, Password) VALUES (?, ?)");
                 ps.setString(1, Email);
                 ps.setString(2, Password1);
+
+                return "{\"status\": \"user added\"}";
             } else {
                 return "{\"error\": \"Passwords do not match\"}";
             }
@@ -71,13 +129,15 @@ public class UsersController {
             System.out.println("Database error during /user/login: " + exception.getMessage());
             return "{\"error\": \"Unable to log in user, server side error\"}";
         }
-        return Email;
     }
 
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
-    public String userDetails() {
+    public String userDetails(@CookieParam("token") String token) {
+        if (!UsersController.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+        }
         System.out.println("user/details");
         JSONArray list = new JSONArray();
         try {
@@ -96,142 +156,70 @@ public class UsersController {
         }
     }
 
-    /* public static void newUsers(String Email, String Password)
-        //code to add new users data to the users table
-        {
-
-
-            try {
-
-                PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Users (Email, Password) VALUES (?, ?)");
-
-                ps.setString(1, Email);
-                ps.setString(2, Password);
-
-                ps.execute();
-                System.out.println("User added");
-
-            } catch (Exception exception) {
-                System.out.println("Database error: " + exception.getMessage());
-                System.out.println("Data not added to database");
-            }
-        }
-/*
-
-
-
-    @POST
-    @Path("new")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces(MediaType.APPLICATION_JSON)
-    public String newUser(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password) {
-        try {
-            if (Email == null || Password == null) {
-                throw new Exception("One or more form data parameters are missing in the HTTP request.");
-            }
-            System.out.println("user/new email=" + Email);
-
-            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Users (Email, Password) VALUES (?, ?)");
-            ps.setString(1, Email);
-            ps.setString(2, Password);
-            ps.execute();
-            return "{\"status\": \"OK\"}";
-        } catch (Exception exception) {
-            System.out.println("Database error: " + exception.getMessage());
-            return "{\"error\": \"Unable to create new user, please see server console for more info\"}";
-
-        }
-    }
-
     @POST
     @Path("editEmail")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String updateEmail(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password) {
+    public String editEmail(@FormDataParam("Email") String Email, @FormDataParam("newEmail") String newEmail, @FormDataParam("Password") String Password, @CookieParam("token") String token) {
+        if (!UsersController.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+        }
         try {
-            loginUser(Email, Password);
-            return Email;
-        } catch (Exception exception) {
-            System.out.println("Database error: " + exception.getMessage());
-            return "{\"error\": \"Unable to list users, please see server console for more info.\"}";
-        }
-
-
-
-    /*public static void listUsers()
-        //code to list the users data in the users table
-        {
-
-            try {
-
-                PreparedStatement ps = Main.db.prepareStatement("SELECT UserID, Email, Password FROM Users");
-
-                ResultSet result = ps.executeQuery();
-                while (result.next()) {
-                    int UserID = result.getInt(1);
-                    String Password = result.getString(3);
-                    String Email = result.getString(2);
-                    System.out.println("UserID: " + UserID + " Email: " + Email + " Password: " + Password);
-                }
-
-            } catch (Exception exception) {
-                System.out.println("Database error: " + exception.getMessage());
-                System.out.println("Database error: data not able to be listed");
+            if (Email == null || Password == null) {
+                throw new Exception("One or more form data parameters are missing in the HTTP request.");
             }
-
-        }
-
-
-       /* public static void newUsers(String Email, String Password)
-        //code to add new users data to the users table
-        {
-
-
-            try {
-
-                PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Users (Email, Password) VALUES (?, ?)");
-
-                ps.setString(1, Email);
-                ps.setString(2, Password);
-
-                ps.execute();
-                System.out.println("User added");
-
-            } catch (Exception exception) {
-                System.out.println("Database error: " + exception.getMessage());
-                System.out.println("Data not added to database");
-            }
-        }
-
-        public static void updateUsers(String Email, String Password)
-    // code to update the users data if anything is edited
-    {
-        try {
-            PreparedStatement ps = Main.db.prepareStatement("UPDATE Users SET Email = ?, Password = ?");
-
-            ps.setString(1, Email);
+            System.out.println("user/editEmail id=" + Email);
+            PreparedStatement ps = Main.db.prepareStatement("UPDATE Users SET Email = ?, Password = ? WHERE Email = ?");
+            ps.setString(1, newEmail);
             ps.setString(2, Password);
-
+            ps.setString(3, Email);
             ps.execute();
-
+            return "{\"status\": \"edited successfully\"}";
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
-            System.out.println("Database not updated");
+            return "{\"error\": \"Unable to update item, please see server console for more info.\"}";
         }
     }
 
-    public static void deleteUsers(String Email)
-    // code to delete a user from the users table
-    {
+    @POST
+    @Path("delete")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteUser(@FormDataParam("Email") String Email) {
+
         try {
-            PreparedStatement ps = Main.db.prepareStatement("DELETE from Users where Email = ?");
-            ps.setString(1,Email);
+            if (Email == null) {
+                throw new Exception("The form data parameter is missing in the HTTP request.");
+            }
+            System.out.println("user/delete user=" + Email);
+
+            PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Users WHERE Email = ?");
+
+            ps.setString(1, Email);
+
             ps.execute();
 
+            return "{\"status\": \"user deleted\"}";
 
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
-            System.out.println("Data not deleted from database");
+            return "{\"error\": \"Unable to delete item, please see server console for more info.\"}";
         }
-    }*/
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
