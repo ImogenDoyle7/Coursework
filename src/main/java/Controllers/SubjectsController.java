@@ -3,6 +3,7 @@ import Server.Main;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -31,7 +32,22 @@ public class SubjectsController {
             return "{\"error\": \"Unable to list subjects, please see server console for more info.\"}";
         }
     }
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
    /* public static void listSubjects()
         //code to list the users data in the users table
         {
