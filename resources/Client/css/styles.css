@@ -9,7 +9,7 @@ h1 {
 }
 
 #content {
-    background-color: white;
+    background-color: #beccfa;
     width: 1000px;
     margin: 0 auto;
     min-height: 600px;
@@ -21,18 +21,25 @@ h1 {
     margin-left: 20px;
 }
 
-#username, #password {
+#email, #password {
     margin-left: 20px;
     font-size: 14pt;
 }
 
-#loginButton {
+#LogInButton {
     width: 200px;
-    background-color: cornflowerblue;
+    height: 200px;
+    background-color: dodgerblue;
+}
+
+#SignUpButton {
+    width: 200px;
+    height: 200px;
+    background-color: dodgerblue;
 }
 
 #loginButton:hover {
-    background-color: dodgerblue;
+    background-color: mediumslateblue;
 }
 
 .editButton, .deleteButton, #saveButton, #cancelButton, #loginButton {
@@ -47,7 +54,7 @@ h1 {
     display: inline;
     float: right
 }
-.deleteButton, #cancelButton {
+/*.deleteButton, #cancelButton {
     visibility: hidden;
     background-color: indianred;
     margin-left: 10px;
@@ -56,4 +63,4 @@ h1 {
 .editButton {
     visibility: hidden;
     background-color: silver;
-}
+}*/
