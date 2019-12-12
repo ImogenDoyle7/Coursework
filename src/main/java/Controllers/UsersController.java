@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.util.UUID;
 
 
-@Path("/Users/")
+@Path("Users/")
 public class UsersController {
 
 
@@ -43,7 +43,7 @@ public class UsersController {
                     return userDetails.toString();
                 } else {
 
-                    return "{\"error\": \"Passwords do not match\"}";
+                    return "{\"error\": \"Password is incorrect\"}";
                 }
             } else {
                 return "{\"error\": \"There is no user with this email\"}";
