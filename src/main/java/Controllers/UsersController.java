@@ -15,7 +15,6 @@ import java.util.UUID;
 @Path("Users/")
 public class UsersController {
 
-
     @POST
     @Path("login")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -107,7 +106,7 @@ public class UsersController {
     @Path("signUp")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String signUp(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password1, @FormDataParam("CheckPassword") String Password2, @CookieParam("token") String token) { //this is a form data parameter
+   public String signUp(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password1, @FormDataParam("CheckPassword") String Password2, @CookieParam("token") String token) { //this is a form data parameter
         if (!UsersController.validToken(token)) {
             return "{\"error\": \"You don't appear to be logged in.\"}";
         }
@@ -160,10 +159,11 @@ public class UsersController {
     @Path("editEmail")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String editEmail(@FormDataParam("Email") String Email, @FormDataParam("newEmail") String newEmail, @FormDataParam("Password") String Password, @CookieParam("token") String token) {
-        if (!UsersController.validToken(token)) {
-            return "{\"error\": \"You don't appear to be logged in.\"}";
-        }
+   // public String editEmail(@FormDataParam("Email") String Email, @FormDataParam("newEmail") String newEmail, @FormDataParam("Password") String Password, @CookieParam("token") String token) {
+        public String editEmail(@FormDataParam("Email") String Email, @FormDataParam("newEmail") String newEmail, @FormDataParam("Password") String Password) {
+          //  if (!UsersController.validToken(token)) {
+          //  return "{\"error\": \"You don't appear to be logged in.\"}";
+      //  }
         try {
             if (Email == null || Password == null) {
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");
