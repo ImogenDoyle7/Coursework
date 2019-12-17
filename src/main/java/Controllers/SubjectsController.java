@@ -1,16 +1,15 @@
 package Controllers;
 import Server.Main;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import javax.ws.rs.CookieParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+import java.util.UUID;
+@Path("Subjects/")
 public class SubjectsController {
     @GET
     @Path("list")
@@ -32,8 +31,32 @@ public class SubjectsController {
             return "{\"error\": \"Unable to list subjects, please see server console for more info.\"}";
         }
     }
-    
-    
+
+        @POST
+        @Path("delete")
+        @Consumes(MediaType.MULTIPART_FORM_DATA)
+        @Produces(MediaType.APPLICATION_JSON)
+        public String deleteSubject(@FormDataParam("SubjectName") String SubjectName) {
+
+            try {
+                if (SubjectName == null) {
+                    throw new Exception("The form data parameter is missing in the HTTP request.");
+                }
+                System.out.println("Subjects/delete subject=" + SubjectName);
+
+                PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Subjects WHERE SubjectName = ?");
+
+                ps.setString(1, SubjectName);
+
+                ps.execute();
+
+                return "{\"status\": \"subject deleted\"}";
+
+            } catch (Exception exception) {
+                System.out.println("Database error: " + exception.getMessage());
+                return "{\"error\": \"Unable to delete item, please see server console for more info.\"}";
+            }
+        }
     
     
     

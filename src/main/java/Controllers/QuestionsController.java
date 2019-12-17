@@ -1,9 +1,60 @@
 package Controllers;
 import Server.Main;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+@Path("Questions/")
 public class QuestionsController {
+    @POST
+    @Path("delete")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteTopic(@FormDataParam("QuestionID") String QuestionID) {
+
+        try {
+            if (QuestionID == null) {
+                throw new Exception("The form data parameter is missing in the HTTP request.");
+            }
+            System.out.println("Questions/delete question = " + QuestionID);
+
+            PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Questions WHERE QuestionID = ?");
+
+            ps.setString(1, QuestionID);
+
+            ps.execute();
+
+            return "{\"status\": \"question deleted\"}";
+
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"error\": \"Unable to delete item, please see server console for more info.\"}";
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    /* public static void listQuestions()
     //code to list the questions data in the questions table
     {

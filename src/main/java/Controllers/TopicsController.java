@@ -1,9 +1,43 @@
 package Controllers;
 import Server.Main;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+@Path("Topics/")
 public class TopicsController {
+    @POST
+    @Path("delete")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteTopic(@FormDataParam("TopicName") String TopicName) {
+
+        try {
+            if (TopicName == null) {
+                throw new Exception("The form data parameter is missing in the HTTP request.");
+            }
+            System.out.println("Subjects/delete subject=" + TopicName);
+
+            PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Topics WHERE TopicName = ?");
+
+            ps.setString(1, TopicName);
+
+            ps.execute();
+
+            return "{\"status\": \"topic deleted\"}";
+
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"error\": \"Unable to delete item, please see server console for more info.\"}";
+        }
+    }
+
+
 
    /* public static void listTopics()
     //code to list the topic data in the Topics table
