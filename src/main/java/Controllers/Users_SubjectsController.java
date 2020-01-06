@@ -10,8 +10,54 @@ import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.UUID;
-
+@Path("US/")
 public class Users_SubjectsController {
+    @POST
+    @Path("delete")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteUserSubject(@FormDataParam("userID") String UserID, @FormDataParam("SubjectID") String SubjectID) {
+
+        try {
+            if (SubjectID == null|| UserID == null) {
+                throw new Exception("One or more form data parameters are missing in the HTTP request.");
+            }
+            System.out.println("US/delete user_subject = " + SubjectID);
+
+            PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Users_Subjects WHERE UserID = ? AND SubjectID = ?");
+
+            ps.setString(1, UserID);
+            ps.setString(2, SubjectID);
+
+            ps.execute();
+
+            return "{\"status\": \"subject deleted from users profile\"}";
+
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"error\": \"Unable to delete item, please see server console for more info.\"}";
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /*@POST
     @Path("newUserSubject")
     @Consumes(MediaType.MULTIPART_FORM_DATA)

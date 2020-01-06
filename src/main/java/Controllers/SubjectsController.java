@@ -32,34 +32,58 @@ public class SubjectsController {
         }
     }
 
-        @POST
-        @Path("delete")
-        @Consumes(MediaType.MULTIPART_FORM_DATA)
-        @Produces(MediaType.APPLICATION_JSON)
-        public String deleteSubject(@FormDataParam("SubjectName") String SubjectName) {
 
-            try {
-                if (SubjectName == null) {
-                    throw new Exception("The form data parameter is missing in the HTTP request.");
-                }
-                System.out.println("Subjects/delete subject=" + SubjectName);
+    @POST
+    @Path("delete")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteSubject(@FormDataParam("SubjectName") String SubjectName) {
 
-                PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Subjects WHERE SubjectName = ?");
-
-                ps.setString(1, SubjectName);
-
-                ps.execute();
-
-                return "{\"status\": \"subject deleted\"}";
-
-            } catch (Exception exception) {
-                System.out.println("Database error: " + exception.getMessage());
-                return "{\"error\": \"Unable to delete item, please see server console for more info.\"}";
+        try {
+            if (SubjectName == null) {
+                throw new Exception("The form data parameter is missing in the HTTP request.");
             }
+            System.out.println("Subjects/delete subject=" + SubjectName);
+
+            PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Subjects WHERE SubjectName = ?");
+
+            ps.setString(1, SubjectName);
+
+            ps.execute();
+
+            return "{\"status\": \"subject deleted\"}";
+
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"error\": \"Unable to delete item, please see server console for more info.\"}";
         }
-    
-    
-    
+    }
+
+    @POST
+    @Path("list")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String listSubject(@FormDataParam("SubjectName") String SubjectName) {
+
+        try {
+            if (SubjectName == null) {
+                throw new Exception("The form data parameter is missing in the HTTP request.");
+            }
+            System.out.println("Subjects/delete subject=" + SubjectName);
+
+            PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Subjects WHERE SubjectName = ?");
+
+            ps.setString(1, SubjectName);
+
+            ps.execute();
+
+            return "{\"status\": \"subject deleted\"}";
+
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"error\": \"Unable to delete item, please see server console for more info.\"}";
+        }
+    }
     
     
     

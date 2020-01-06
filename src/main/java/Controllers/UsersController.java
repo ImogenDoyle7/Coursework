@@ -174,12 +174,40 @@ public class UsersController {
             ps.setString(2, Password);
             ps.setString(3, Email);
             ps.execute();
-            return "{\"status\": \"edited successfully\"}";
+            return "{\"status\": \"Email edited successfully\"}";
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
             return "{\"error\": \"Unable to update item, please see server console for more info.\"}";
         }
     }
+
+    @POST
+    @Path("editPassword")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    // public String editEmail(@FormDataParam("Email") String Email, @FormDataParam("newEmail") String newEmail, @FormDataParam("Password") String Password, @CookieParam("token") String token) {
+    public String editPassword(@FormDataParam("Email") String Email, @FormDataParam("newPassword") String newPassword, @FormDataParam("Password") String Password) {
+        //  if (!UsersController.validToken(token)) {
+        //  return "{\"error\": \"You don't appear to be logged in.\"}";
+        //  }
+        try {
+            if (Email == null || Password == null || newPassword == null) {
+                throw new Exception("One or more form data parameters are missing in the HTTP request.");
+            }
+            System.out.println("user/editEmail id=" + Email);
+            PreparedStatement ps = Main.db.prepareStatement("UPDATE Users SET Password = ? WHERE Email = ? AND Password = ?");
+            ps.setString(1, newPassword);
+            ps.setString(2, Email);
+            ps.setString(3, Password);
+            ps.execute();
+            return "{\"status\": \"Password edited successfully\"}";
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"error\": \"Unable to update item, please see server console for more info.\"}";
+        }
+    }
+
+
 
     @POST
     @Path("delete")
