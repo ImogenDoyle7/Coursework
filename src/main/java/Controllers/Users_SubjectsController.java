@@ -39,7 +39,32 @@ public class Users_SubjectsController {
         }
     }
 
+    @POST
+    @Path("new")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String newUserSubject(@FormDataParam("userID") String UserID, @FormDataParam("SubjectID") String SubjectID) {
 
+        try {
+            if (SubjectID == null|| UserID == null) {
+                throw new Exception("One or more form data parameters are missing in the HTTP request.");
+            }
+            System.out.println("US/new user_subject = " + SubjectID);
+
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Users_Subjects WHERE UserID = ? AND SubjectID = ?");
+
+            ps.setString(1, UserID);
+            ps.setString(2, SubjectID);
+
+            ps.execute();
+
+            return "{\"status\": \"subject added to users profile\"}";
+
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"error\": \"Unable to delete item, please see server console for more info.\"}";
+        }
+    }
 
 
 
