@@ -39,7 +39,7 @@ public class UsersController {
                     JSONObject userDetails = new JSONObject();
                     userDetails.put("email", Email);
                     userDetails.put("token", token);
-                    return userDetails.toString();
+                    return "{\"status\": \"User logged in successfully\"}"+ userDetails.toString();
                 } else {
 
                     return "{\"error\": \"Password is incorrect\"}";
@@ -106,10 +106,11 @@ public class UsersController {
     @Path("signUp")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-   public String signUp(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password1, @FormDataParam("CheckPassword") String Password2, @CookieParam("token") String token) { //this is a form data parameter
-        if (!UsersController.validToken(token)) {
+   public String signUp(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password1, @FormDataParam("CheckPassword") String Password2) { //this is a form data parameter
+        // public String signUp(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password1, @FormDataParam("CheckPassword") String Password2, @CookieParam("token") String token) { //this is a form data parameter
+        /*if (!UsersController.validToken(token)) {
             return "{\"error\": \"You don't appear to be logged in.\"}";
-        }
+        }*/
         try {
             if (Email == null || Password1 == null || Password2 == null) {
                 throw new Exception("The form data parameter is missing in the HTTP request");
@@ -125,8 +126,7 @@ public class UsersController {
                 return "{\"error\": \"Passwords do not match\"}";
             }
         } catch (Exception exception) {
-            System.out.println("Database error during /user/login: " + exception.getMessage());
-            return "{\"error\": \"Unable to log in user, server side error\"}";
+            return "{\"error\": \"Unable to sign up user, server side error\"}" ;
         }
     }
 

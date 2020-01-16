@@ -6,7 +6,7 @@ function pageLoad() {
         + '<h1>Student Revision Tool</h1>'
         + '<button type="LogInButton">Log In</button>'
         + '<button type="signUpButton">Sign Up</button>'
-        + '<img src="/client/img/logo.png"  alt="Logo"/>'
+        + '<img src="/client/img/study.gif"  alt="Logo"/>'
         + '<div style="font-style: italic;">'
         + 'Generated at ' + now.toLocaleTimeString()
         + '</div>'

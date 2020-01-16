@@ -37,6 +37,32 @@ public class TopicsController {
         }
     }
 
+    @POST
+    @Path("editName")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    // public String editEmail(@FormDataParam("Email") String Email, @FormDataParam("newEmail") String newEmail, @FormDataParam("Password") String Password, @CookieParam("token") String token) {
+    public String editTopicName(@FormDataParam("TopicName") String topicName, @FormDataParam("newTopicName") String newTopicName) {
+        //  if (!UsersController.validToken(token)) {
+        //  return "{\"error\": \"You don't appear to be logged in.\"}";
+        //  }
+        try {
+            if (topicName == null || newTopicName == null) {
+                throw new Exception("One or more form data parameters are missing in the HTTP request.");
+            }
+            System.out.println("topic/edit id=" + topicName);
+            PreparedStatement ps = Main.db.prepareStatement("UPDATE Topics SET TopicName = ? WHERE TopicName = ?");
+            ps.setString(1, newTopicName);
+            ps.setString(2, topicName);
+            ps.execute();
+            return "{\"status\": \"topic name edited successfully\"}";
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"error\": \"Unable to update item, please see server console for more info.\"}";
+        }
+    }
+
+
 
 
    /* public static void listTopics()
