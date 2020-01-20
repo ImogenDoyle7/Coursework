@@ -52,7 +52,21 @@
 </head>
 <body onload="login()">
 <div id="content">
-    <div id="testDiv"></div>
+    <h1>Please log in to continue...</h1>
+    <hr />
+    <form id="LogInForm">
+        <div class="LogInDiv">
+            <label for="username">Email: </label>
+            <input type="text" name="username" id="username">
+        </div>
+        <div class="LogInDiv">
+            <label for="password">Password: </label>
+            <input type="password" name="password" id="password">
+        </div>
+        <div class="LogInDiv">
+            <input type="submit" value="Login" id="LogInButton">
+        </div>
+    </form>
 </div>
 </body>
 </html>

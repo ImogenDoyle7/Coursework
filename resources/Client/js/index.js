@@ -108,6 +108,7 @@ function pageLoad() {
 
     document.getElementById("testDiv").innerHTML = myHTML;
 }
+
 function checkLogin() {
 
     let myHTML = '<div style="text-align:center;">'
@@ -119,8 +120,6 @@ function checkLogin() {
         + '</div>';
 
     document.getElementById("testDiv").innerHTML = myHTML;
-}
-function checkLogin() {
 
     let email = Cookies.get("email");
 
