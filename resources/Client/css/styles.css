@@ -1,7 +1,7 @@
 body {
-    background-color: navy;
+    background-color: #5a73ce;
     margin: 0;
-    font-family: 'Arial', serif;
+    font-family: 'Microsoft JhengHei UI Light', serif;
 }
 
 h1 {
@@ -9,11 +9,11 @@ h1 {
 }
 
 #content {
-    background-color: #beccfa;
+    background-color: #5ACEB4;
     width: 1000px;
     margin: 0 auto;
     min-height: 600px;
-    padding: 32px;
+    padding: 48px;
 }
 .loginDiv {
     font-size: 14pt;
@@ -29,17 +29,17 @@ h1 {
 #LogInButton {
     width: 200px;
     height: 200px;
-    background-color: dodgerblue;
+    background-color: transparent;
 }
 
 #SignUpButton {
     width: 200px;
     height: 200px;
-    background-color: dodgerblue;
+    background-color: transparent;
 }
 
-#loginButton:hover {
-    background-color: mediumslateblue;
+#LogInButton:hover {
+    background-color: #ce5a67;
 }
 
 .editButton, .deleteButton, #saveButton, #cancelButton, #loginButton {
@@ -54,7 +54,7 @@ h1 {
     display: inline;
     float: right
 }
-/*.deleteButton, #cancelButton {
+.deleteButton, #cancelButton {
     visibility: hidden;
     background-color: indianred;
     margin-left: 10px;
@@ -63,4 +63,4 @@ h1 {
 .editButton {
     visibility: hidden;
     background-color: silver;
-}*/
+}
