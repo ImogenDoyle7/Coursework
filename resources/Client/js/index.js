@@ -98,9 +98,9 @@ function pageLoad() {
 
     let myHTML = '<div style="text-align:center;">'
         + '<h1>Student Revision Tool</h1>'
-        + '<button type="LogInButton">Log In</button>'
-        + '<button type="signUpButton">Sign Up</button>'
         + '<img src="/client/img/study.gif"  alt="Logo"/>'
+        + '<button id="LogInButton">Log In</button>'
+        + '<button id="SignUpButton">Sign Up</button>'
         + '<div style="font-style: italic;">'
         + 'Generated at ' + now.toLocaleTimeString()
         + '</div>'
@@ -108,6 +108,7 @@ function pageLoad() {
 
     document.getElementById("testDiv").innerHTML = myHTML;
 }
+
 
 function checkLogin() {
 
