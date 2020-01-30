@@ -84,36 +84,42 @@ public class SubjectsController {
             return "{\"error\": \"Unable to delete item, please see server console for more info.\"}";
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-   /* public static void listSubjects()
-        //code to list the users data in the users table
-        {
 
-            try {
+    @POST
+    @Path("new")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String newSubject(@FormDataParam("SubjectName") String SubjectName) {
 
-                PreparedStatement ps = Main.db.prepareStatement("SELECT SubjectID, SubjectName FROM Subjects");
-
-                ResultSet result = ps.executeQuery();
-                while (result.next()) {
-                    int SubjectID = result.getInt(1);
-                    String SubjectName = result.getString(2);
-                    System.out.println("SubjectID: " + SubjectID + " Subject Name: " + SubjectName);
-                }
-
-            } catch (Exception exception) {
-                System.out.println("Database error: " + exception.getMessage());
-                System.out.println("Database error: data not able to be listed");
+        try {
+            if (SubjectName == null) {
+                throw new Exception("The form data parameter is missing in the HTTP request.");
             }
+            System.out.println("Subjects/new SubjectName = " + SubjectName);
+
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Subjects (SubjectName) VALUES (?)");
+
+            ps.setString(1, SubjectName);
+
+            ps.execute();
+
+            return "{\"status\": \"Subject added to database\"}";
+
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"error\": \"Unable to add item, please see server console for more info.\"}";
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   /*
 
             public static void newSubjects(String SubjectName)
             //code to add new subject data to the subjects table

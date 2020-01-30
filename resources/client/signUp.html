@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+
+    <link rel="stylesheet" type="text/css" href="/client/css/styles.css">
+    <script src="/client/js/signUp.js"></script>
+    <script src="/client/js/js.cookie.js"></script>
+</head>
+<body onload="SignUp">
+<div id="content">
+    <h1>Create a new account</h1>
+    <hr />
+    <form id="SignUpForm">
+        <div class="SignUpDiv">
+            <label for="username">Email: </label>
+            <input type="text" name="username" id="username">
+        </div>
+        <div class="SignUpDiv">
+            <label for="password">Password: </label>
+            <input type="password" name="password" id="password">
+        </div>
+        <div class="SignUpDiv">
+            <label for="checkPassword">Confirm Password: </label>
+            <input type="password" name="Confirm Password" id="checkPassword">
+        </div>
+        <div class="LogInDiv">
+            <input type="submit" value="Login" id="submitButton" onclick="window.location.href = window.location.href = '/client/userHome.html';">
+        </div>
+    </form>
+</div>
+</body>
+</html>

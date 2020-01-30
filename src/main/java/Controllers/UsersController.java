@@ -22,7 +22,7 @@ public class UsersController {
     public String loginUser(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password) {
         try {
 
-            System.out.println("user/login");
+            System.out.println("Users/login");
             PreparedStatement ps1 = Main.db.prepareStatement("SELECT Password FROM Users WHERE Email = ?");
             ps1.setString(1, Email);
             ResultSet loginResults = ps1.executeQuery();
@@ -63,7 +63,7 @@ public class UsersController {
         }
         try {
 
-            System.out.println("user/logout");
+            System.out.println("Users/logout");
 
             PreparedStatement ps1 = Main.db.prepareStatement("SELECT UserID FROM Users WHERE Token = ?");
             ps1.setString(1, token);
@@ -106,11 +106,11 @@ public class UsersController {
     @Path("signUp")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-   public String signUp(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password1, @FormDataParam("CheckPassword") String Password2) { //this is a form data parameter
-        // public String signUp(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password1, @FormDataParam("CheckPassword") String Password2, @CookieParam("token") String token) { //this is a form data parameter
-        /*if (!UsersController.validToken(token)) {
+    //  public String signUp(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password1, @FormDataParam("CheckPassword") String Password2) { //this is a form data parameter
+        public String signUp(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password1, @FormDataParam("CheckPassword") String Password2, @CookieParam("token") String token) { //this is a form data parameter
+        if (!UsersController.validToken(token)) {
             return "{\"error\": \"You don't appear to be logged in.\"}";
-        }*/
+        }
         try {
             if (Email == null || Password1 == null || Password2 == null) {
                 throw new Exception("The form data parameter is missing in the HTTP request");
@@ -137,7 +137,7 @@ public class UsersController {
         if (!UsersController.validToken(token)) {
             return "{\"error\": \"You don't appear to be logged in.\"}";
         }
-        System.out.println("user/details");
+        System.out.println("Users/details");
         JSONArray list = new JSONArray();
         try {
             PreparedStatement ps = Main.db.prepareStatement("SELECT Email, Password FROM Users ");
@@ -159,11 +159,11 @@ public class UsersController {
     @Path("editEmail")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-   // public String editEmail(@FormDataParam("Email") String Email, @FormDataParam("newEmail") String newEmail, @FormDataParam("Password") String Password, @CookieParam("token") String token) {
-        public String editEmail(@FormDataParam("Email") String Email, @FormDataParam("newEmail") String newEmail, @FormDataParam("Password") String Password) {
-          //  if (!UsersController.validToken(token)) {
-          //  return "{\"error\": \"You don't appear to be logged in.\"}";
-      //  }
+     public String editEmail(@FormDataParam("Email") String Email, @FormDataParam("newEmail") String newEmail, @FormDataParam("Password") String Password, @CookieParam("token") String token) {
+        //   public String editEmail(@FormDataParam("Email") String Email, @FormDataParam("newEmail") String newEmail, @FormDataParam("Password") String Password) {
+        if (!UsersController.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+      }
         try {
             if (Email == null || Password == null) {
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");
@@ -185,11 +185,11 @@ public class UsersController {
     @Path("editPassword")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    // public String editEmail(@FormDataParam("Email") String Email, @FormDataParam("newEmail") String newEmail, @FormDataParam("Password") String Password, @CookieParam("token") String token) {
-    public String editPassword(@FormDataParam("Email") String Email, @FormDataParam("newPassword") String newPassword, @FormDataParam("Password") String Password) {
-        //  if (!UsersController.validToken(token)) {
-        //  return "{\"error\": \"You don't appear to be logged in.\"}";
-        //  }
+     public String editEmail(@FormDataParam("Email") String Email, @FormDataParam("newEmail") String newEmail, @FormDataParam("newPassword") String newPassword, @FormDataParam("Password") String Password, @CookieParam("token") String token) {
+        // public String editPassword(@FormDataParam("Email") String Email,  @FormDataParam("Password") String Password) {
+          if (!UsersController.validToken(token)) {
+          return "{\"error\": \"You don't appear to be logged in.\"}";
+          }
         try {
             if (Email == null || Password == null || newPassword == null) {
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");
@@ -219,7 +219,7 @@ public class UsersController {
             if (Email == null) {
                 throw new Exception("The form data parameter is missing in the HTTP request.");
             }
-            System.out.println("user/delete user=" + Email);
+            System.out.println("Users/delete user=" + Email);
 
             PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Users WHERE Email = ?");
 

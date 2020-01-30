@@ -53,6 +53,14 @@ p {
     border-radius: 8px;
 }
 
+#submitButton {
+    background-color: #00A69C;
+    font-size: 24px;
+    width: 120px;
+    height: 60px;
+    border: none;
+}
+
 #LogInButton:hover {
     background-color: darkred ;
 }
@@ -60,12 +68,7 @@ p {
     background-color: darkred ;
 }
 
-.editButton, .deleteButton, #saveButton, #cancelButton, #loginButton {
-    color: black;
-    font-size: 14px;
-    border: none;
-    padding: 50px;
-    border-radius: 8px;}
+
 #loggedInDetails {
     margin: 0;
     text-align: right;

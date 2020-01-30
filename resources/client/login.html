@@ -49,10 +49,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Log in</title>
+
+    <link rel="stylesheet" type="text/css" href="/client/css/styles.css">
+    <script src="/client/js/login.js"></script>
+    <script src="/client/js/js.cookie.js"></script>
+
 </head>
 <body onload="login()">
 <div id="content">
-    <h1>Please log in to continue...</h1>
+   <h1>Please log in to continue...</h1>
     <hr />
     <form id="LogInForm">
         <div class="LogInDiv">
@@ -64,11 +69,13 @@
             <input type="password" name="password" id="password">
         </div>
         <div class="LogInDiv">
-            <input type="submit" value="Login" id="LogInButton">
+            <input type="submit" value="Login" id="submitButton" onclick="window.location.href = '/client/userHome.html';">
         </div>
     </form>
 </div>
 </body>
+
+
 </html>
 
 

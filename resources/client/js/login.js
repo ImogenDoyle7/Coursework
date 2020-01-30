@@ -15,23 +15,25 @@ function login(event) {
     const form = document.getElementById("loginForm");
     const formData = new FormData(form);
 
-    fetch("/user/login", {method: 'post', body: formData}
+    fetch("/Users/login", {method: 'post', body: formData}
     ).then(response => response.json()
     ).then(responseData => {
 
         if (responseData.hasOwnProperty('error')) {
             alert(responseData.error);
         } else {
+            alert("logged in");
             Cookies.set("username", responseData.username);
+            Cookies.set("password", responseData.password);
             Cookies.set("token", responseData.token);
 
-            window.location.href = '/client/index.html';
+            window.location.href = '/client/userHome.html';
         }
     });
 }
 function logout() {
 
-    fetch("/user/logout", {method: 'post'}
+    fetch("/Users/logout", {method: 'post'}
     ).then(response => response.json()
     ).then(responseData => {
         if (responseData.hasOwnProperty('error')) {

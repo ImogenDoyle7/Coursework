@@ -38,6 +38,33 @@ import java.sql.ResultSet;
             }
         }
 
+    @POST
+    @Path("new")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String newUserSubject(@FormDataParam("QuestionID") int QuestionID, @FormDataParam("QuizID") int QuizID) {
+
+        try {
+            if (QuestionID == 0|| QuizID == 0) {
+                throw new Exception("One or more form data parameters are missing in the HTTP request.");
+            }
+            System.out.println("QQ/new QuizID = " + QuizID + " QuestionID = " + QuestionID);
+
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Quiz_Questions (QuizID, QuestionID) VALUES (?, ?)");
+
+            ps.setInt(1, QuizID);
+            ps.setInt(2, QuestionID);
+
+            ps.execute();
+
+            return "{\"status\": \"question added to quiz\"}";
+
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"error\": \"Unable to add item, please see server console for more info.\"}";
+        }
+    }
+
 
 
 

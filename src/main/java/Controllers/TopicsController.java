@@ -62,6 +62,32 @@ public class TopicsController {
         }
     }
 
+    @POST
+    @Path("new")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String newTopic(@FormDataParam("TopicName") String TopicName, @FormDataParam("SubjectID") int SubjectID) {
+
+        try {
+            if (TopicName == null|| SubjectID == 0) {
+                throw new Exception("One or more form data parameters are missing in the HTTP request.");
+            }
+            System.out.println("Topics/new TopicName = " + TopicName + " SubjectID = " + SubjectID);
+
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Topics (TopicName, SubjectID) VALUES (?, ?)");
+
+            ps.setString(1, TopicName);
+            ps.setInt(2, SubjectID);
+
+            ps.execute();
+
+            return "{\"status\": \"topic added to database\"}";
+
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"error\": \"Unable to add item, please see server console for more info.\"}";
+        }
+    }
 
 
 

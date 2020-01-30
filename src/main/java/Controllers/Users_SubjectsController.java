@@ -10,19 +10,21 @@ import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.UUID;
+
 @Path("US/")
 public class Users_SubjectsController {
+
     @POST
     @Path("delete")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String deleteUserSubject(@FormDataParam("userID") String UserID, @FormDataParam("SubjectID") String SubjectID) {
+    public String deleteUserSubject(@FormDataParam("UserID") String UserID, @FormDataParam("SubjectID") String SubjectID) {
 
         try {
             if (SubjectID == null|| UserID == null) {
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");
             }
-            System.out.println("US/delete user_subject = " + SubjectID);
+            System.out.println("US/delete user_subject = " + SubjectID + " " + UserID);
 
             PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Users_Subjects WHERE UserID = ? AND SubjectID = ?");
 
@@ -43,18 +45,18 @@ public class Users_SubjectsController {
     @Path("new")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String newUserSubject(@FormDataParam("userID") String UserID, @FormDataParam("SubjectID") String SubjectID) {
+    public String newUserSubject(@FormDataParam("UserID") int UserID, @FormDataParam("SubjectID") int SubjectID) {
 
         try {
-            if (SubjectID == null|| UserID == null) {
+            if (SubjectID == 0|| UserID == 0) {
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");
             }
-            System.out.println("US/new user_subject = " + SubjectID);
+            System.out.println("US/new SubjectID = " + SubjectID + " UserID = " + UserID);
 
-            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Users_Subjects WHERE UserID = ? AND SubjectID = ?");
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Users_Subjects (UserID, SubjectID) VALUES (?, ?)");
 
-            ps.setString(1, UserID);
-            ps.setString(2, SubjectID);
+            ps.setInt(1, UserID);
+            ps.setInt(2, SubjectID);
 
             ps.execute();
 
@@ -62,7 +64,7 @@ public class Users_SubjectsController {
 
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
-            return "{\"error\": \"Unable to delete item, please see server console for more info.\"}";
+            return "{\"error\": \"Unable to add item, please see server console for more info.\"}";
         }
     }
 
