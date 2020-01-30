@@ -106,13 +106,10 @@ public class UsersController {
     @Path("signUp")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-        public String signUp(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password1, @FormDataParam("CheckPassword") String Password2, @CookieParam("token") String token) { //this is a form data parameter
-        if (!UsersController.validToken(token)) {
-            return "{\"error\": \"You don't appear to be logged in.\"}";
-        }
+        public String signUp(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password1, @FormDataParam("CheckPassword") String Password2) { //this is a form data parameter
         try {
             if (Email == null || Password1 == null || Password2 == null) {
-                throw new Exception("The form data parameter is missing in the HTTP request");
+                throw new Exception("One or more of the form data parameters are missing in the HTTP request");
             }
 
             if (Password1 == Password2) { // This checks that the users confirmation password matches their password

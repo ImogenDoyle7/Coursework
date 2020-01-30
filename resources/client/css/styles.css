@@ -85,3 +85,9 @@ p {
     visibility: hidden;
     background-color: silver;
 }
+
+#checkPassword, #password, #email{
+    height: 20px;
+    width: 150px;
+    font-size: 14pt;
+}
