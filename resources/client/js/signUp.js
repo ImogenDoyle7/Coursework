@@ -12,7 +12,7 @@ function signUp(event) {
 
     event.preventDefault();
 
-    const form = document.getElementById("signUpForm");
+    const form = document.getElementById("SignUpForm");
     const formData = new FormData(form);
 
     fetch("/Users/signUp", {method: 'post', body: formData}

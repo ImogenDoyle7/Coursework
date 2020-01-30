@@ -21,7 +21,7 @@ import java.sql.ResultSet;
                 if (QuestionID == null|| QuizID == null) {
                     throw new Exception("One or more form data parameters are missing in the HTTP request.");
                 }
-                System.out.println("Questions/delete question = " + QuestionID);
+                System.out.println("Quiz_Questions/delete question = " + QuestionID + " from Quiz = " + QuizID);
 
                 PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Quiz_Questions WHERE QuestionID = ? AND QuizID = ?");
 

@@ -60,30 +60,32 @@ public class SubjectsController {
     }
 
     @POST
-    @Path("list")
+    @Path("editName")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String listSubject(@FormDataParam("SubjectName") String SubjectName) {
+    public String editSubjectName(@FormDataParam("oldSubjectName") String oldSubjectName, @FormDataParam("newSubjectName") String newSubjectName) {
 
         try {
-            if (SubjectName == null) {
-                throw new Exception("The form data parameter is missing in the HTTP request.");
+            if (oldSubjectName == null|| newSubjectName == null) {
+                throw new Exception("One or more form data parameters are missing in the HTTP request.");
             }
-            System.out.println("Subjects/delete subject=" + SubjectName);
+            System.out.println("Subjects/edit subject=" + oldSubjectName);
 
-            PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Subjects WHERE SubjectName = ?");
+            PreparedStatement ps = Main.db.prepareStatement("UPDATE Subjects WHERE SubjectName = ? set SubjectName = ?");
 
-            ps.setString(1, SubjectName);
+            ps.setString(1, oldSubjectName);
+            ps.setString(2, newSubjectName);
 
             ps.execute();
 
-            return "{\"status\": \"subject deleted\"}";
+            return "{\"status\": \"subject name updated\"}";
 
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
             return "{\"error\": \"Unable to delete item, please see server console for more info.\"}";
         }
     }
+
 
     @POST
     @Path("new")
@@ -110,67 +112,5 @@ public class SubjectsController {
             return "{\"error\": \"Unable to add item, please see server console for more info.\"}";
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-   /*
-
-            public static void newSubjects(String SubjectName)
-            //code to add new subject data to the subjects table
-            {
-
-
-                try {
-
-                    PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Subjects (SubjectName) VALUES (?)");
-
-                    ps.setString(1, SubjectName);
-
-                    ps.execute();
-                    System.out.println("Subject added");
-
-                } catch (Exception exception) {
-                    System.out.println("Database error: " + exception.getMessage());
-                    System.out.println("Data not added to database");
-                }
-            }
-
-            public static void updateSubjects(String SubjectName)
-            // code to update the subjects data if anything is edited
-            {
-                try {
-                    PreparedStatement ps = Main.db.prepareStatement("UPDATE Subjects SET SubjectName = ?");
-
-                    ps.setString(1, SubjectName);
-
-                    ps.execute();
-
-                } catch (Exception exception) {
-                    System.out.println("Database error: " + exception.getMessage());
-                    System.out.println("Database not updated");
-                }
-            }
-
-}
-
-    public static void deleteSubjects(String SubjectName)
-    // code to delete a subject from the subjects table
-    {
-        try {
-            PreparedStatement ps = Main.db.prepareStatement("DELETE from Subjects where SubjectName = ?");
-            ps.setString(1,SubjectName);
-            ps.execute();
-
-
-        } catch (Exception exception) {
-            System.out.println("Database error: " + exception.getMessage());
-            System.out.println("Data not deleted from database");
-        }*/
     }
 

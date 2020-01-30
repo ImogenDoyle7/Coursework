@@ -116,11 +116,11 @@ public class QuestionsController {
 
             ps.execute();
 
-            return "{\"status\": \"question deleted\"}";
+            return "{\"status\": \"question edited\"}";
 
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
-            return "{\"error\": \"Unable to delete item, please see server console for more info.\"}";
+            return "{\"error\": \"Unable to edit question, please see server console for more info.\"}";
         }
     }
 

@@ -106,7 +106,6 @@ public class UsersController {
     @Path("signUp")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    //  public String signUp(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password1, @FormDataParam("CheckPassword") String Password2) { //this is a form data parameter
         public String signUp(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password1, @FormDataParam("CheckPassword") String Password2, @CookieParam("token") String token) { //this is a form data parameter
         if (!UsersController.validToken(token)) {
             return "{\"error\": \"You don't appear to be logged in.\"}";
