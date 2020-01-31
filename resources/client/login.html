@@ -10,21 +10,21 @@
     <script src="/client/js/js.cookie.js"></script>
 
 </head>
-<body onload="login()">
+<body>
 <div id="content">
    <h1>Please log in to continue...</h1>
     <hr />
     <form id="LogInForm">
         <div class="LogInDiv">
-            <label for="username">Email: </label>
-            <input type="text" name="username" id="username">
+            <label for="email">Email: </label>
+            <input type="text" name="email" id="email">
         </div>
         <div class="LogInDiv">
             <label for="password">Password: </label>
             <input type="password" name="password" id="password">
         </div>
         <div class="LogInDiv">
-            <input type="submit" value="Login" id="submitButton" onclick="window.location.href = '/client/userHome.html';">
+            <input type="submit" value="Login" id="submitButton" onclick="login()">
         </div>
     </form>
 </div>

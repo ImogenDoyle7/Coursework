@@ -10,22 +10,29 @@ function pageLoad() {
 }
 function login(event) {
 
-    event.preventDefault();
-
-    const form = document.getElementById("loginForm");
-    const formData = new FormData(form);
-
+   // event.preventDefault();
+let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+    /*const form = document.getElementById("loginForm");
+    const formData = new FormData(form);*/
+let formData = new FormData();
+formData.append("email", email);
+    formData.append("password", password);
     fetch("/Users/login", {method: 'post', body: formData}
     ).then(response => response.json()
     ).then(responseData => {
+        alert("yeah");
+if (responseData.hasOwnProperty('status')){
+    alert("logged in");
 
+}
         if (responseData.hasOwnProperty('error')) {
             alert(responseData.error);
         } else {
             alert("logged in");
             Cookies.set("username", responseData.username);
             Cookies.set("password", responseData.password);
-            Cookies.set("token", responseData.token);
+            // Cookies.set("token", responseData.token);
 
             window.location.href = '/client/userHome.html';
         }

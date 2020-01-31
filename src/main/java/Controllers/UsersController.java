@@ -19,7 +19,7 @@ public class UsersController {
     @Path("login")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String loginUser(@FormDataParam("Email") String Email, @FormDataParam("Password") String Password) {
+    public String loginUser(@FormDataParam("email") String Email, @FormDataParam("password") String Password) {
         try {
 
             System.out.println("Users/login");
@@ -27,8 +27,10 @@ public class UsersController {
             ps1.setString(1, Email);
             ResultSet loginResults = ps1.executeQuery();
             if (loginResults.next()) {
+                System.out.println("yeah");
                 String correctPassword = loginResults.getString(1);
                 if (Password.equals(correctPassword)) {
+                    System.out.println("yh");
                     String token = UUID.randomUUID().toString();
 
                     PreparedStatement ps2 = Main.db.prepareStatement("UPDATE Users SET Token = ? WHERE Email = ?");
@@ -39,7 +41,9 @@ public class UsersController {
                     JSONObject userDetails = new JSONObject();
                     userDetails.put("email", Email);
                     userDetails.put("token", token);
-                    return "{\"status\": \"User logged in successfully\"}"+ userDetails.toString();
+                    System.out.println("got this far");
+                    return "{\"status\": \"User logged in successfully\"}";
+                    // + userDetails.toString()
                 } else {
 
                     return "{\"error\": \"Password is incorrect\"}";
